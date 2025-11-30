@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Count
 from .models import Product, Category, Review
 from .serializers import (
     CategoryListSerializer, CategoryDetailSerializer,
@@ -28,7 +29,7 @@ def product_detail_api_view(request, id):
 
 @api_view(['GET'])
 def categories_list_api_view(request):
-    categories = Category.objects.all()
+    categories = Category.objects.annotate(products_count=Count('product'))
     data = CategoryListSerializer(categories, many=True).data
     return Response(data=data, status=status.HTTP_200_OK)
 
