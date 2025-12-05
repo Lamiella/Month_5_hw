@@ -13,7 +13,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     price = models.FloatField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     @property
     def rating(self):
@@ -29,7 +29,7 @@ class Review(models.Model):
 
     stars = models.IntegerField(choices=STARS, default=3)
     text = models.TextField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews', null=True)
 
     def __str__(self):
         return self.text
